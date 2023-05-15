@@ -1,0 +1,14 @@
+.footer {
+  padding: 15px 0;
+  background-color: #A79E8B;
+
+  &__wrapper {
+    text-align: center;
+  }
+
+  &__link {
+    &:hover {
+      color: lighten($color: #000000, $amount: 30%);
+    }
+  }
+}
