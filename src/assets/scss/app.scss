@@ -1,0 +1,27 @@
+@import '../../../node_modules/normalize.css/normalize.css';
+
+html {
+  font-size: 10px;
+  line-height: 10px;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+p {
+  margin: 0;
+}
+
+.hidden {
+  visibility: hidden;
+}

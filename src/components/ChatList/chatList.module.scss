@@ -1,0 +1,21 @@
+.chat-list {
+  overflow-y: hidden;
+  height: 350px;
+
+  &__chats {
+    height: inherit;
+    overflow-y: scroll;
+  }
+
+  &__chat {
+    width: 100%;
+    padding: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+      background-color: lighten($color: #000000, $amount: 90%);
+    }
+  }
+}
