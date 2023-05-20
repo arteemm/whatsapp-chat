@@ -2,6 +2,7 @@ import React from 'react';
 import { MessageItem } from '../../types';
 import { chatSlice } from '../../store/reducers/chatSlice';
 import { useAppDispatch } from '../../hooks/redux';
+import cl from './chatList.module.scss';
 
 type MessageListProps = {
   chatsList: { [key: string]: MessageItem[] };
@@ -16,14 +17,17 @@ const ChatList: React.FC<MessageListProps> = (props) => {
   };
 
   return (
-    <div>
-      {Object.keys(props.chatsList).map((number, index) => {
-        return (
-          <button key={index} onClick={() => choseChat(number)}>
-            {`${number}`}
-          </button>
-        );
-      })}
+    <div className={cl[`chat-list`]}>
+      <p>Чаты</p>
+      <div className={cl[`chat-list__chats`]}>
+        {Object.keys(props.chatsList).map((number, index) => {
+          return (
+            <button className={cl[`chat-list__chat`]} key={index} onClick={() => choseChat(number)}>
+              {`${number}`}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

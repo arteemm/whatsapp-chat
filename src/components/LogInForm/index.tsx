@@ -22,8 +22,15 @@ const Login: React.FC = () => {
     dispatch(setTokenInstance(e.target.value));
   };
 
+  const description = `Для выполнения запросов HTTP API WhatsApp требуется использовать параметры доступа к Аккаунту.Параметры доступа публикуются в Личном кабинете:
+
+  idInstance - уникальный номер аккаунта
+  apiTokenInstance - ключ доступа аккаунта.
+  Условием входа является подтверждение авторизации аккаунта`;
+
   return (
     <form className={cl.login} onSubmit={handleSubmit}>
+      <p className={cl.login__description}>{description}</p>
       <input
         className={cl.login__input}
         type="text"

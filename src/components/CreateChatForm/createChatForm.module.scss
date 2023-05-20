@@ -1,0 +1,14 @@
+.create-chat {
+  padding-top: 20px;
+  margin-bottom: 20px;
+
+  &__description{
+    white-space: pre-line;
+    margin-bottom: 10px;
+  }
+
+  &__error {
+    color: red;
+    font-size: 0.7em;
+  }
+}

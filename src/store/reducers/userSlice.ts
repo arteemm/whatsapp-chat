@@ -29,6 +29,9 @@ export const userSlice = createSlice({
     setTokenInstance: (state: StateTypeUser, action: PayloadAction<string>) => {
       state.user.apiTokenInstance = action.payload;
     },
+    setStateInstance: (state: StateTypeUser, action: PayloadAction<string>) => {
+      state.stateInstance = action.payload;
+    },
   },
   extraReducers: {
     [fetchUser.pending.type]: (state) => {

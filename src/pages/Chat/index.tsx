@@ -41,11 +41,16 @@ const ChatPage: React.FC = () => {
     }
   };
 
+  const description = 'для получения ответа нажмите кномку "Получить уведомления"';
+
   return (
     <main className={cl.chat}>
-      <div>
+      <div className={cl.chat__menu}>
         <CreateChatForm />
-        <button onClick={() => requestNotification()}>Получить уведомления</button>
+        <p className={cl.chat__description}>{description}</p>
+        <button className={cl.chat__notifications} onClick={() => requestNotification()}>
+          Получить уведомления
+        </button>
         <ChatList chatsList={chatsList} />
       </div>
       <div className={cl.chat__container}>
