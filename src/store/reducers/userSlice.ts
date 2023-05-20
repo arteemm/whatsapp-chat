@@ -11,8 +11,8 @@ interface StateTypeUser {
 
 const initialState: StateTypeUser = {
   user: {
-    idInstance: '',
-    apiTokenInstance: '',
+    idInstance: localStorage.getItem('idInstance') || '',
+    apiTokenInstance: localStorage.getItem('apiTokenInstance') || '',
   },
   stateInstance: 'notAuthorized',
   loading: true,

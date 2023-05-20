@@ -1,15 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ChatParameters } from '../../types';
 import { fetchSendMessage } from './actionCreators';
+import { MessageItem } from '../../types';
 
 interface StateTypeUser {
   number: string;
+  chatsList: {
+    [key: string]: MessageItem[];
+  };
+  currentNumber: string;
   loading: boolean;
   error: { message: string; code: string } | null;
 }
 
 const initialState: StateTypeUser = {
   number: '',
+  chatsList: {},
+  currentNumber: '',
   loading: true,
   error: null,
 };
@@ -20,6 +26,20 @@ export const chatSlice = createSlice({
   reducers: {
     setNumber: (state: StateTypeUser, action: PayloadAction<string>) => {
       state.number = action.payload;
+    },
+    createNumber: (state: StateTypeUser, action: PayloadAction<string>) => {
+      if (!state.chatsList[action.payload]) {
+        state.chatsList[action.payload] = [];
+      }
+    },
+    setChatsList: (state: StateTypeUser, action: PayloadAction<[string, MessageItem]>) => {
+      if (!state.chatsList[action.payload[0]]) {
+        state.chatsList[action.payload[0]] = [];
+      }
+      state.chatsList[action.payload[0]].push(action.payload[1]);
+    },
+    setCurrentNumber: (state: StateTypeUser, action: PayloadAction<string>) => {
+      state.currentNumber = action.payload;
     },
   },
   extraReducers: {
@@ -32,7 +52,6 @@ export const chatSlice = createSlice({
       action: PayloadAction<{ stateInstance: string }>
     ) => {
       state.loading = false;
-      console.log(action.payload);
     },
     [fetchSendMessage.rejected.type]: (state, action) => {
       state.loading = false;

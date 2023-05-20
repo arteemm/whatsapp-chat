@@ -12,7 +12,7 @@ export const getUser = async (props: UserParameters) => {
 
 export const sendMessage = async (props: ChatParameters) => {
   const { idInstance, apiTokenInstance } = props;
-  const data = { chatId: `${props.chatId}@c.us`, message: props.message };
+  const data = { chatId: props.chatId, message: props.message };
   const request = await instance.post(
     `waInstance${idInstance}/sendMessage/${apiTokenInstance}`,
     data
@@ -24,7 +24,7 @@ export const sendMessage = async (props: ChatParameters) => {
 export const getNotification = async (props: UserParameters) => {
   const { idInstance, apiTokenInstance } = props;
   const request = await instance.get(
-    `https://api.green-api.com/waInstance${idInstance}/ReceiveNotification/${apiTokenInstance}`
+    `waInstance${idInstance}/ReceiveNotification/${apiTokenInstance}`
   );
 
   return request.data;
@@ -33,7 +33,7 @@ export const getNotification = async (props: UserParameters) => {
 export const deleteNotification = async (props: DeleteNotification) => {
   const { idInstance, apiTokenInstance, receiptId } = props;
   const request = await instance.delete(
-    `https://api.green-api.com/waInstance${idInstance}/DeleteNotification/${apiTokenInstance}/${receiptId}`
+    `waInstance${idInstance}/DeleteNotification/${apiTokenInstance}/${receiptId}`
   );
 
   return request.data;

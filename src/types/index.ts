@@ -9,5 +9,10 @@ export interface ChatParameters extends UserParameters {
 }
 
 export interface DeleteNotification extends UserParameters {
-  receiptId: string;
+  receiptId: number;
 }
+
+export type MessageItem = {
+  message: string;
+  typeMessage: string;
+};

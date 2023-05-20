@@ -1,42 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { chatSlice } from '../../store/reducers/chatSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { sendMessage, getNotification, deleteNotification } from '../../api';
+import cl from './chat.module.scss';
+import MessageSendForm from '../../components/MessageSendForm';
+import MessageList from '../../components/MessageList';
+import ChatList from '../../components/ChatList';
+import CreateChatForm from '../../components/CreateChatForm';
+import { getNotification, deleteNotification } from '../../api';
 
 const ChatPage: React.FC = () => {
-  const { number } = useAppSelector((store) => store.chat);
+  const { chatsList, currentNumber } = useAppSelector((store) => store.chat);
   const { idInstance, apiTokenInstance } = useAppSelector((store) => store.user.user);
   const dispatch = useAppDispatch();
-  const { setNumber } = chatSlice.actions;
-  const [message, setMessage] = useState('');
+  const { setChatsList } = chatSlice.actions;
 
-  const getNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setNumber(e.target.value));
-    console.log(333);
-  };
+  useEffect(() => {
+    requestNotification();
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await sendMessage({ idInstance, apiTokenInstance, chatId: number, message });
-  };
-
-  const respond = async () => {
-    let response;
+  const requestNotification = async () => {
     try {
+      let response;
       while ((response = await getNotification({ idInstance, apiTokenInstance }))) {
         const { body, receiptId } = response;
-        if (body.typeWebhook === 'outgoingAPIMessageReceived') {
-          console.log('incomingMessageReceived');
-          console.log('MESSAGE: ', body.messageData.extendedTextMessageData.text);
-        } else if (body.typeWebhook === 'incomingMessageReceived') {
-          console.log('incomingMessageReceived');
-          console.log('Incoming MESSAGE: ', body.messageData.textMessageData.textMessage);
-        } else if (body.typeWebhook === 'stateInstanceChanged') {
-          console.log('stateInstanceChanged');
-          console.log(`stateInstance=${body.stateInstance}`);
-        } else if (body.typeWebhook === 'deviceInfo') {
-          console.log('deviceInfo');
-          console.log(`status=${body.deviceData}`);
+        if (body.typeWebhook === 'incomingMessageReceived') {
+          dispatch(
+            setChatsList([
+              body.senderData.sender,
+              {
+                message: body.messageData.textMessageData.textMessage,
+                typeMessage: 'receivedMessage',
+              },
+            ])
+          );
         }
         await deleteNotification({ idInstance, apiTokenInstance, receiptId });
       }
@@ -46,17 +42,20 @@ const ChatPage: React.FC = () => {
   };
 
   return (
-    <main>
-      <input type="text" placeholder="write number" value={number} onChange={getNumber} />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-      </form>
-      <button onClick={() => respond()}>respond</button>
+    <main className={cl.chat}>
+      <div>
+        <CreateChatForm />
+        <button onClick={() => requestNotification()}>Получить уведомления</button>
+        <ChatList chatsList={chatsList} />
+      </div>
+      <div className={cl.chat__container}>
+        {chatsList[currentNumber] ? (
+          <>
+            <MessageList messageList={chatsList[currentNumber]} />
+            <MessageSendForm formClassName={cl.chat__sendForm} inputClassName={cl.chat__input} />
+          </>
+        ) : null}
+      </div>
     </main>
   );
 };
