@@ -15,7 +15,7 @@ const initialState: StateTypeUser = {
     apiTokenInstance: localStorage.getItem('apiTokenInstance') || '',
   },
   stateInstance: 'notAuthorized',
-  loading: true,
+  loading: false,
   error: null,
 };
 
