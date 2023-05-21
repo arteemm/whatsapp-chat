@@ -36,21 +36,16 @@ const ChatPage: React.FC = () => {
         }
         await deleteNotification({ idInstance, apiTokenInstance, receiptId });
       }
-    } catch (err) {
-      console.log('Exception', err);
+      await requestNotification();
+    } catch {
+      setTimeout(() => requestNotification(), 500);
     }
   };
-
-  const description = 'для получения ответа нажмите кномку "Получить уведомления"';
 
   return (
     <main className={cl.chat}>
       <div className={cl.chat__menu}>
         <CreateChatForm />
-        <p className={cl.chat__description}>{description}</p>
-        <button className={cl.chat__notifications} onClick={() => requestNotification()}>
-          Получить уведомления
-        </button>
         <ChatList chatsList={chatsList} />
       </div>
       <div className={cl.chat__container}>

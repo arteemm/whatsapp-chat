@@ -32,6 +32,9 @@ export const userSlice = createSlice({
     setStateInstance: (state: StateTypeUser, action: PayloadAction<string>) => {
       state.stateInstance = action.payload;
     },
+    resetError: (state: StateTypeUser) => {
+      state.error = null;
+    },
   },
   extraReducers: {
     [fetchUser.pending.type]: (state) => {

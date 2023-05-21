@@ -22,12 +22,15 @@ export const sendMessage = async (props: ChatParameters) => {
 };
 
 export const getNotification = async (props: UserParameters) => {
-  const { idInstance, apiTokenInstance } = props;
-  const request = await instance.get(
-    `waInstance${idInstance}/ReceiveNotification/${apiTokenInstance}`
-  );
-
-  return request.data;
+  try {
+    const { idInstance, apiTokenInstance } = props;
+    const request = await instance.get(
+      `waInstance${idInstance}/ReceiveNotification/${apiTokenInstance}`
+    );
+    return request.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const deleteNotification = async (props: DeleteNotification) => {

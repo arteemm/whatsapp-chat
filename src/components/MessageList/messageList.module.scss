@@ -3,6 +3,10 @@
   padding-left: 5px;
   overflow-y: scroll;
 
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
   &__message {
     padding: 5px;
     background-color: #d9fdd3;

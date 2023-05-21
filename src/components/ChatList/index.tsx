@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MessageItem } from '../../types';
 import { chatSlice } from '../../store/reducers/chatSlice';
 import { useAppDispatch } from '../../hooks/redux';
@@ -11,6 +11,11 @@ type MessageListProps = {
 const ChatList: React.FC<MessageListProps> = (props) => {
   const dispatch = useAppDispatch();
   const { setCurrentNumber } = chatSlice.actions;
+  const divRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (divRef.current) divRef.current.scrollIntoView({ behavior: 'smooth' });
+  });
 
   const choseChat = (number: string) => {
     dispatch(setCurrentNumber(number));
@@ -22,7 +27,12 @@ const ChatList: React.FC<MessageListProps> = (props) => {
       <div className={cl[`chat-list__chats`]}>
         {Object.keys(props.chatsList).map((number, index) => {
           return (
-            <button className={cl[`chat-list__chat`]} key={index} onClick={() => choseChat(number)}>
+            <button
+              ref={divRef}
+              className={cl[`chat-list__chat`]}
+              key={index}
+              onClick={() => choseChat(number)}
+            >
               {`${number}`}
             </button>
           );
