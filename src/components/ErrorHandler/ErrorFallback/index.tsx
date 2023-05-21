@@ -4,7 +4,7 @@ import cl from '../errorhandler.module.scss';
 
 const ErrorFallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundary }) => {
   return (
-    <div className="container">
+    <div className="error-container">
       <div className={cl.alert}>
         <h2>Что-то пошло не так</h2>
         <p>{`Ошибка: ${error.message}`}</p>
